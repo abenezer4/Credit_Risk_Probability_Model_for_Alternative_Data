@@ -1,0 +1,16 @@
+
+
+services:
+  credit-scoring-api:
+    build: .
+    container_name: credit_risk_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src  # Live code reloading
+      # Mount your local MLflow storage to the container so it can find the model
+      - ./mlflow.db:/app/mlflow.db
+      - ./notebooks/mlruns:/app/notebooks/mlruns
+    environment:
+      # Tell the API where to find the MLflow registry
+      - MLFLOW_TRACKING_URI=sqlite:///mlflow.db
